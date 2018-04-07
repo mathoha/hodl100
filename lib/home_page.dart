@@ -14,6 +14,8 @@ class _HomePageState extends State<HomePage> {
   List currencies;
   String _time = "24";
   String _timeString = "hours";
+  ScrollController _scrollController = new ScrollController();
+
 
 
   @override
@@ -39,8 +41,16 @@ class _HomePageState extends State<HomePage> {
           });
         },)
           ],
-        leading: new Icon(Icons.trending_down,
-      color: Colors.yellow),
+        leading: new IconButton(
+          icon: new Icon(Icons.trending_up,
+          color: Colors.yellow),
+          onPressed: () {
+          setState(() {
+             _scrollController.animateTo(_scrollController.position.minScrollExtent,
+              duration: const Duration(milliseconds: 1000),
+              curve: Curves.easeIn);
+            });
+      }),
       ),
       body: _cryptoWidget(),
       
@@ -50,6 +60,7 @@ class _HomePageState extends State<HomePage> {
   
   Widget _cryptoWidget(){
     return new ListView.builder(
+              controller: _scrollController,
               itemCount: widget.currencies.length,
               itemBuilder: (BuildContext context, int index){
             final Map currency = widget.currencies[index];
