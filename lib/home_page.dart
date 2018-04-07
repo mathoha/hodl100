@@ -1,4 +1,6 @@
 
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -68,7 +70,7 @@ class _HomePageState extends State<HomePage> {
       subtitle: new Text("\$" + currency['price_usd'] , style: new TextStyle(fontSize: 19.0, color: Colors.yellow)),
       trailing: _getSubtitleText(currency['percent_change_'+ _time + 'h']
       ),
-      onTap: () => print(currency['name']),//can open a new view 
+      onTap: () => showCurrencyInformation(currency),//can open a new view 
     );
   }
 
@@ -89,6 +91,43 @@ class _HomePageState extends State<HomePage> {
             children: [percentageChangeTextWidget]));
   }
 
+  Future<Null> showCurrencyInformation(Map currency) async{
+    TextStyle style = new TextStyle(fontSize: 18.0,);
+    String circulation = "Unbounded";
+    if (currency['available_supply'] != null && currency['max_supply'] != null){
+        double circ = 100*(double.parse(currency['available_supply'])/double.parse(currency['max_supply']));
+        circulation = circ.toStringAsPrecision(2) + " \%";
+    }
+
+    
+    await showDialog(
+      context: context,
+      child: new SimpleDialog(
+        title: new Text(currency['name']),
+        children: <Widget>[
+          new SimpleDialogOption(
+            child: new Text("Price: " + currency['price_usd'] + " \$", style: style, ),
+          ),
+          new SimpleDialogOption(
+            child: new Text("Price: " + currency['price_btc'] + " btc", style: style ),
+          ),
+          new SimpleDialogOption(
+            child: new Text("Volume: " + currency['24h_volume_usd'] + " \$", style: style ),
+          ),
+          new SimpleDialogOption(
+            child: new Text("Market cap: " + currency['market_cap_usd'] + " \$", style: style ),
+          ),
+          new SimpleDialogOption(
+            child: new Text("Circulating: " + circulation, style: style ),
+          ),
+
+        ],
+      )
+    );
 }
+
+
+}
+
 
 
