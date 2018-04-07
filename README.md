@@ -1,8 +1,5 @@
 # hodl100
+A simple cryptocurrency price feed. All data from https://coinmarketcap.com/api/
 
-A new Flutter project.
+Download: [apk](hodl100.apk)
 
-## Getting Started
-
-For help getting started with Flutter, view our online
-[documentation](https://flutter.io/).
